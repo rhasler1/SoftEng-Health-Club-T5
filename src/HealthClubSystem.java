@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -10,13 +11,16 @@ public class HealthClubSystem {
     static HashMap<String, Member> memberList = new HashMap<>();
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         // test - will input members into map from text file
         Member Ryan = new Member("Ryan","H","4445557777","rhasler@luc.edu");
-        Member David = new Member("David","Ludington","1111111111","dludington@lu");
+        //Member David = new Member("David","Ludington","1111111111","dludington@lu");
 
         memberList.put(generateMembershipID(), Ryan);
-        memberList.put(generateMembershipID(), David);
+        //memberList.put(generateMembershipID(), David);
+
+        addMembersFromFile();
+
         while (true) {
             // add logic for processing user input
             System.out.println("Enter: \n1 - search for member \n2 - add new member \n3 - print member list");
@@ -50,10 +54,12 @@ public class HealthClubSystem {
 
 
             if(choice == 3){
+
                 for(String ID : memberList.keySet()){
-                    String id = ID;
-                    String member = memberList.get(id).printMemberInfo();
-                    System.out.println(id + " " + member);
+                    //String id = ID;
+
+                    String member = memberList.get(ID).printMemberInfo();
+                    System.out.println(ID + " " + member);
                 }
             }
         }
@@ -107,5 +113,38 @@ public class HealthClubSystem {
     public void removeMember(String membershipID) {
         memberList.remove(membershipID);
         // still need to implement file writer/reader
+    }
+
+    public static String accessMemberInfo(){
+        return "";
+    }
+
+    /**
+     * this method reads in member data from txt file and creates a member with the
+     * corresponding data, adding them to the memberList HashMap
+     */
+
+    public static void addMembersFromFile(){
+
+        File members = new File("member.txt");
+        try{
+            Scanner sc = new Scanner(members);
+
+            while(sc.hasNextLine()){
+                String fName = sc.next();
+                String lName = sc.next();
+                String phoneNumber = sc.next();
+                String email = sc.next();
+
+                addMember(fName, lName, phoneNumber, email);
+
+
+            }
+            sc.close();
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+
     }
 }
