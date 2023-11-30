@@ -17,8 +17,8 @@ public class Member {
     /**
      * Print member information
      * */
-    public void printMemberInfo() {
-        System.out.println(this.fName);
+    public String printMemberInfo() {
+        return this.fName + " ," + this.lName + ", " + this.email + ", " + this.phoneNumber;
     }
 
 }
