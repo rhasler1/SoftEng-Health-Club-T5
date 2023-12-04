@@ -4,6 +4,10 @@ public class Member {
     String lName;
     String phoneNumber;
     String email;
+    int memberType;
+    //1, student; 2, adult; 3, senior
+    String recentVisit;
+    int monthlyVisits;
 
     /**
      * Member Constructor
