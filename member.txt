@@ -1,4 +1,4 @@
-111111111111 John Doe 1112223333 example@mail normal
-222222222222 michael white 9998887777 name@mail normal
-333333333333 bob smith 5554443333 bsmith@mail normal
-444444444444 terry paul 7770981111 tpaul@mail normal
+111111111111 John Doe 1112223333 example@mail Good
+444444444444 terry paul 7770981111 tpaul@mail In-Danger
+333333333333 bob smith 5554443333 bsmith@mail In-Danger
+222222222222 michael white 9998887777 name@mail Expired

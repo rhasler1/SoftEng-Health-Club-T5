@@ -1,39 +1,37 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
+// TODO: 12/6/23 track when a membership is about to expire and update membership status' accordingly.  
 
 public class HealthClubSystem {
     /**
      * hashmap to store member information
      * */
     static HashMap<String, Member> memberList = new HashMap<>();
+    /**
+     * scanner to take in user input
+     * */
     protected static Scanner keyboard = new Scanner(System.in);
 
-
+    /**
+     * main - entry point into SysEng Health Club
+     * */
     public static void main(String[] args){
-        // test - will input members into map from text file
-        Member Ryan = new Member("77777777","Ryan","H","4445557777","rhasler@luc.edu", "normal");
-        //Member David = new Member("David","Ludington","1111111111","dludington@lu");
-
-        memberList.put(generateMembershipID(), Ryan);
-        //memberList.put(generateMembershipID(), David);
-
         populateMemberList();
 
         while (true) {
-
-            System.out.println("SysEng Health Club Options: \n0 - exit system \n1 - search for member \n2 - add new member \n3 - print member list");
+            System.out.println("SysEng Health Club Options: \n0 - exit system \n1 - search for member " +
+                    "\n2 - add new member \n3 - print member list \n4 - club access \n5 - remove member");
             System.out.println("Enter your choice: ");
-
             int choice = keyboard.nextInt();
 
-            if (choice < 0 || choice > 3) {
+            if (choice < 0 || choice > 5) {
                 System.out.println("That is not an available option, try again.");
             }
 
             if (choice == 0) { // exit system
+                updateMemberFile(); // update member.txt file
+                keyboard.close();
                 System.out.println("Exiting Health Club System...");
                 System.exit(0);
             }
@@ -43,7 +41,8 @@ public class HealthClubSystem {
                 String id = keyboard.next();
                 if (memberList.containsKey(id)){
                     System.out.print("Member info: ");
-                    memberList.get(id).printMemberInfo();
+                    String memberInfo = memberList.get(id).getMemberInfo();
+                    System.out.println(memberInfo);
                 }
                 else {
                     System.out.println("No member in the system is associated with the provided ID.");
@@ -59,35 +58,91 @@ public class HealthClubSystem {
                 String phoneNumber = keyboard.next();
                 System.out.print("Enter the member's email ");
                 String email = keyboard.next();
-                System.out.print("Enter desired membership status ");
-                String membershipStatus = keyboard.next(); // should probably create a method call that ensures membershipStatus data is correct.
+                System.out.println("Enter desired membership status ");
+                String membershipStatus = selectStatus();
+                while (membershipStatus.isEmpty()) { membershipStatus = selectStatus(); } // run selectStatus method failed.
                 String id = generateMembershipID();
                 createMember(id, fName, lName, phoneNumber, email, membershipStatus);
+                System.out.println("Member " + fName + " " + lName + " successfully added to the system.");
             }
 
-            if(choice == 3){ // print list of members
+            if (choice == 3) { // print list of members
+                System.out.println("#### Member Information ####");
                 for (String id : memberList.keySet()) {
-                    memberList.get(id).printMemberInfo();
+                    String memberInfo = memberList.get(id).getMemberInfo();
+                    System.out.println(memberInfo);
+                }
+            }
+
+            if (choice == 4) { // member access
+                System.out.println("Enter member id: ");
+                String id = keyboard.next();
+                if (validateMembershipID(id)) {
+                    System.out.println("Valid membership allow access.");
+                }
+                else {
+                    System.out.println("Invalid membership deny access.");
+                }
+            }
+
+            if (choice == 5) { // remove member
+                System.out.println("Enter member id of member to remove.");
+                String id = keyboard.next();
+                if (memberList.containsKey(id)) {
+                    System.out.println("Member " + memberList.get(id).fName + " " + memberList.get(id).lName +
+                            " successfully removed.");
+                    removeMember(id);
+                }
+                else {
+                    System.out.println("No member associated with provided id.");
                 }
             }
         }
-
     }
-
-
 
     /**
-     * method to remove member
+     * method to update member.txt file
      * */
-    public void removeMember(String membershipID) {
-        memberList.remove(membershipID);
-        // still need to implement file writer/reader
+    public static void updateMemberFile() {
+        try {
+            File members = new File("member.txt");
+            FileWriter writer = new FileWriter(members);
+            boolean first = true;
+            for (Map.Entry<String, Member> entry: memberList.entrySet()) {
+                if (first) { first = false; }
+                else { writer.write("\n"); }
+                Member thisMember = entry.getValue();
+                writer.write(thisMember.id + " " + thisMember.fName + " " + thisMember.lName
+                + " " + thisMember.phoneNumber + " " + thisMember.email + " " + thisMember.memberType);
+            }
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static String accessMemberInfo(){
-        return "";
+    /**
+     * method to select membership status
+     * */
+    public static String selectStatus() {
+        System.out.println("1 - Good\n2 - In-Danger\n3 - Expired\n4 - Terminated");
+        int input = keyboard.nextInt();
+        String status = "";
+        if (input == 1) {
+            status = "Good";
+        }
+        if (input == 2) {
+            status = "In-Danger";
+        }
+        if (input == 3) {
+            status = "Expired";
+        }
+        if (input == 4) {
+            status = "Terminated";
+        }
+        return status;
     }
-
 
     /**
      * method populateMemberList
@@ -96,8 +151,8 @@ public class HealthClubSystem {
      * description: This method reads in member data from txt file and populates the memberList: HashMap.
      */
     public static void populateMemberList(){
-        File members = new File("member.txt");
         try {
+            File members = new File("member.txt");
             Scanner sc = new Scanner(members);
             while (sc.hasNextLine()) {
                 String id = sc.next();
@@ -161,8 +216,15 @@ public class HealthClubSystem {
     /**
      * validate membershipID for entrance to health club
      * */
-    public boolean validateMembershipID(String membershipID) {
+    public static boolean validateMembershipID(String membershipID) {
         return memberList.containsKey(membershipID);
+    }
+
+    /**
+     * method to remove member
+     * */
+    public static void removeMember(String membershipID) {
+        memberList.remove(membershipID);
     }
 
 }

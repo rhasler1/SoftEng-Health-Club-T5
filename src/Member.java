@@ -18,12 +18,13 @@ public class Member {
         this.email = email;
         this.memberType = memberType;
     }
+
     /**
-     * Print member information
+     * get member information
      * */
-    public void printMemberInfo() {
-        System.out.println("ID: " + this.id + ", " + "First Name: " + this.fName + ", " + "Last Name: " + this.lName + ", "
+    public String getMemberInfo() {
+        return "ID: " + this.id + ", " + "First Name: " + this.fName + ", " + "Last Name: " + this.lName + ", "
                 + "Phone Number: " + this.phoneNumber + ", " + "Email: " + this.email + ", " + "Membership Type: " +
-                this.memberType);
+                this.memberType;
     }
 }
