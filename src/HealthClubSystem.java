@@ -25,11 +25,12 @@ public class HealthClubSystem {
 
         while (true) {
             System.out.println("SysEng Health Club Options: \n0 - exit system \n1 - search for member " +
-                    "\n2 - add new member \n3 - print member list \n4 - club access \n5 - remove member");
+                    "\n2 - add new member \n3 - print member list \n4 - club access \n5 - remove member " +
+                    "\n6 - update all status");
             System.out.println("Enter your choice: ");
             int choice = keyboard.nextInt();
 
-            if (choice < 0 || choice > 5) {
+            if (choice < 0 || choice > 6) {
                 System.out.println("That is not an available option, try again.");
             }
 
@@ -55,6 +56,36 @@ public class HealthClubSystem {
 
             if (choice == 5) { // remove member
                 removeMemberProcess();
+            }
+
+            if (choice == 6) {
+                updateAllStatus();
+            }
+        }
+    }
+
+    /**
+     * method to update all members' status
+     * */
+    public static void updateAllStatus() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for (Map.Entry<String, Member> entry: HealthClubSystem.members.entrySet()) {
+            Member thisMember = entry.getValue();
+            String startDateStr = thisMember.startDate;
+            String membershipLength = thisMember.membershipLength;
+            int memLength = Integer.parseInt(membershipLength);
+            LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+            LocalDate currentDate = LocalDate.now();
+            long monthsPassed = ChronoUnit.MONTHS.between(startDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
+            System.out.println(monthsPassed);
+            if (memLength - monthsPassed < 0) {
+                thisMember.membershipStatus = "Expired";
+            }
+            if (memLength - monthsPassed > 1) {
+                thisMember.membershipStatus = "Good";
+            }
+            if (memLength - monthsPassed == 1) {
+                thisMember.membershipStatus = "In-Danger";
             }
         }
     }

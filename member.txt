@@ -1,5 +1,4 @@
-111111111111 John Doe 1112223333 jdoe@gmail.com Adult 2023-12-08 6 good
-183042819049 ryan hasler 2242771132 rhasler@luc.edu Student 2023-12-08 6 Good
-444444444444 Terry Paul 7770981111 tpaul@gmail.com Senior 2022-11-10 36 good
-333333333333 Bob Smith 5554443333 bsmith@gmail.com Adult 2023-06-12 12 good
-222222222222 Michael White 9998887777 mwhite@gmail.com Student 2023-02-05 12 good
+111111111111 John Doe 1112223333 jdoe@gmail.com Adult 2023-12-08 6 Good
+444444444444 Terry Paul 7770981111 tpaul@gmail.com Senior 2022-11-10 36 Good
+333333333333 Bob Smith 5554443333 bsmith@gmail.com Adult 2023-06-12 12 Good
+222222222222 Michael White 9998887777 mwhite@gmail.com Student 2023-02-05 12 Good
