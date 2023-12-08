@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-// TODO: 12/6/23 track when a membership is about to expire and update membership status' accordingly.  
-
 public class HealthClubSystem {
     /**
      * hashmap to store member information
@@ -15,8 +13,7 @@ public class HealthClubSystem {
      * scanner to take in user input
      * */
     private static final Scanner keyboard = new Scanner(System.in);
-
-
+    
     /**
      * main - entry point into SysEng Health Club
      * */
@@ -24,9 +21,9 @@ public class HealthClubSystem {
         members = FileOps.getMembers();
 
         while (true) {
-            System.out.println("SysEng Health Club Options: \n0 - exit system \n1 - search for member " +
-                    "\n2 - add new member \n3 - print member list \n4 - club access \n5 - remove member " +
-                    "\n6 - update all status");
+            System.out.println("SysEng Health Club Options: \n0 - Exit system \n1 - Access member information " +
+                    "\n2 - Create member account \n3 - Print member list \n4 - Enter health club \n5 - Delete member account " +
+                    "\n6 - Update status");
             System.out.println("Enter your choice: ");
             int choice = keyboard.nextInt();
 
@@ -38,27 +35,27 @@ public class HealthClubSystem {
                 exitSystem();
             }
 
-            if (choice == 1) { // search for member
-                searchForMember();
+            if (choice == 1) { // use case 4: Access Member Information
+                accessMemberInformation();
             }
 
-            if (choice ==  2) { // add new member
-                enrollMember();
+            if (choice ==  2) { // use case 2: Create Account
+                createMemberAccount();
             }
 
             if (choice == 3) { // print list of members
                 printMemberList();
             }
 
-            if (choice == 4) { // member access
-                memberAccess();
+            if (choice == 4) { // use case 1: Enter Health Club
+                enterHealthClub();
             }
 
-            if (choice == 5) { // remove member
-                removeMemberProcess();
+            if (choice == 5) { // use case 3: Delete Account
+                deleteMemberAccount();
             }
 
-            if (choice == 6) {
+            if (choice == 6) { // not in our use cases...
                 updateAllStatus();
             }
         }
@@ -92,13 +89,20 @@ public class HealthClubSystem {
     /**
      * method to remove member
      * */
-    public static void removeMemberProcess() {
-        System.out.println("Enter member id of member to remove.");
+    public static void deleteMemberAccount() {
+        System.out.println("Enter member id of member to remove: ");
         String id = keyboard.next();
         if (members.containsKey(id)) {
-            System.out.println("Member " + members.get(id).fName + " " + members.get(id).lName +
-                    " successfully removed.");
-            removeMember(id);
+            System.out.println("Are you sure you want to delete account associated with " +
+                    "Member " + members.get(id).fName + " " + members.get(id).lName + "? (please enter yes or no)");
+            String answer = keyboard.next();
+            if (answer.equals("yes")) {
+                System.out.println("Account: " + members.get(id).fName + " " + members.get(id).lName + " has been deleted.");
+                removeMember(id);
+            }
+            else {
+                System.out.println("Account: " + members.get(id).fName + " " + members.get(id).lName + " has NOT been deleted.");
+            }
         }
         else {
             System.out.println("No member associated with provided id.");
@@ -108,7 +112,7 @@ public class HealthClubSystem {
     /**
      * method for member access
      * */
-    public static void memberAccess() {
+    public static void enterHealthClub() {
         System.out.println("Enter member id: ");
         String id = keyboard.next();
         if (validateMembershipID(id)) {
@@ -132,11 +136,11 @@ public class HealthClubSystem {
     /**
      * method to search for member
      * */
-    public static void searchForMember() {
-        System.out.print("Enter the member's ID number ");
+    public static void accessMemberInformation() {
+        System.out.print("Enter the member's ID number: ");
         String id = keyboard.next();
         if (members.containsKey(id)){
-            System.out.print("Member info: ");
+            System.out.print("Member info ");
             String memberInfo = members.get(id).toString();
             System.out.println(memberInfo);
         }
@@ -157,9 +161,9 @@ public class HealthClubSystem {
     }
 
     /**
-     * method for process of adding new member
+     * method for creating a new member
      * */
-    public static void enrollMember() {
+    public static void createMemberAccount() {
         System.out.print("Enter the member's first name ");
         String fName = keyboard.next();
         System.out.print("Enter the member's last name ");
@@ -168,9 +172,7 @@ public class HealthClubSystem {
         String phoneNumber = keyboard.next();
         System.out.print("Enter the member's email ");
         String email = keyboard.next();
-        System.out.println("Enter desired membership status ");
-        String membershipStatus = selectStatus();
-        while (membershipStatus.isEmpty()) { membershipStatus = selectStatus(); } // run selectStatus method failed.
+        String membershipStatus = "Good";
         String id = generateMembershipID();
         LocalDate obj = LocalDate.now();
         String startDate = obj.toString(); // check this works
@@ -186,16 +188,16 @@ public class HealthClubSystem {
      * method to select membership type
      * */
     public static String selectMembershipType() {
-        System.out.println("Select Membership Type:\n1 - Student\n2 - Adult\n3 - Senior");
+        System.out.println("Enter age of new member: ");
         int input = keyboard.nextInt();
         String type = "";
-        if (input == 1) {
+        if (input <= 17) {
             type = "Student";
         }
-        if (input == 2) {
+        if (input >= 18 && input <= 64) {
             type = "Adult";
         }
-        if (input == 3) {
+        if (input >= 65) {
             type = "Senior";
         }
         return type;
@@ -315,7 +317,7 @@ public class HealthClubSystem {
      * validate membershipID for entrance to health club
      * */
     public static boolean validateMembershipID(String membershipID) {
-        return members.containsKey(membershipID);
+        return members.containsKey(membershipID) && !members.get(membershipID).membershipStatus.equals("Expired");
     }
 
     /**
