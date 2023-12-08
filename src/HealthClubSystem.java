@@ -77,14 +77,13 @@ public class HealthClubSystem {
             LocalDate startDate = LocalDate.parse(startDateStr, formatter);
             LocalDate currentDate = LocalDate.now();
             long monthsPassed = ChronoUnit.MONTHS.between(startDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
-            System.out.println(monthsPassed);
             if (memLength - monthsPassed < 0) {
                 thisMember.membershipStatus = "Expired";
             }
             if (memLength - monthsPassed > 1) {
                 thisMember.membershipStatus = "Good";
             }
-            if (memLength - monthsPassed == 1) {
+            if (memLength - monthsPassed == 1 || memLength - monthsPassed == 0) {
                 thisMember.membershipStatus = "In-Danger";
             }
         }

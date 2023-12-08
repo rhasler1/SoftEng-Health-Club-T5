@@ -33,6 +33,7 @@ public class Member {
     public String toString() {
         return "ID: " + this.id + ", " + "First Name: " + this.fName + ", " + "Last Name: " + this.lName + ", "
                 + "Phone Number: " + this.phoneNumber + ", " + "Email: " + this.email + ", " + "Membership Type: " +
-                this.memberType;
+                this.memberType + ", Start Date: " + this.startDate + ", Membership Length: " + this.membershipLength
+                + ", Membership Status: " + this.membershipStatus;
     }
 }
