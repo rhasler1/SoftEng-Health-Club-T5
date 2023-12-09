@@ -25,8 +25,13 @@ public class HealthClubSystem {
                     "\n2 - Create member account \n3 - Print member list \n4 - Enter health club \n5 - Delete member account " +
                     "\n6 - Update status");
             System.out.println("Enter your choice: ");
-            int choice = keyboard.nextInt();
-
+            int choice = -1;
+            try {
+                choice = keyboard.nextInt();
+            } catch (Exception e) {
+                System.out.println("The entered number is outside the range of Integers.");
+                keyboard.nextLine();
+            }
             if (choice < 0 || choice > 6) {
                 System.out.println("That is not an available option, try again.");
             }
@@ -302,9 +307,9 @@ public class HealthClubSystem {
                 if (first) { first = false; }
                 else { writer.write("\n"); }
                 Member thisMember = entry.getValue();
-                writer.write(thisMember.id + " " + thisMember.fName + " " + thisMember.lName
-                + " " + thisMember.phoneNumber + " " + thisMember.email + " " + thisMember.memberType
-                + " " + thisMember.startDate + " " + thisMember.membershipLength + " " + thisMember.membershipStatus);
+                writer.write(thisMember.id + "," + thisMember.fName + "," + thisMember.lName
+                + "," + thisMember.phoneNumber + "," + thisMember.email + "," + thisMember.memberType
+                + "," + thisMember.startDate + "," + thisMember.membershipLength + "," + thisMember.membershipStatus);
             }
             writer.flush();
             writer.close();

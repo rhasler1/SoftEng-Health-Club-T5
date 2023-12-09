@@ -32,15 +32,16 @@ public class FileOps {
         Scanner sc = fileScanner(MEMBERS);
         if (sc != null) {
             while (sc.hasNextLine()) {
-                String id = sc.next();
-                String fName = sc.next();
-                String lName = sc.next();
-                String phoneNumber = sc.next();
-                String email = sc.next();
-                String membershipType = sc.next();
-                String startDate = sc.next();
-                String length = sc.next();
-                String membershipStatus = sc.next();
+                String[] data = sc.nextLine().split(",");
+                String id = data[0];
+                String fName = data[1];
+                String lName = data[2];
+                String phoneNumber = data[3];
+                String email = data[4];
+                String membershipType = data[5];
+                String startDate = data[6];
+                String length = data[7];
+                String membershipStatus = data[8];
                 Member newMember = new Member(id, fName, lName, phoneNumber, email, membershipType, startDate,
                         length, membershipStatus);
                 members.put(id, newMember);
