@@ -1,8 +1,13 @@
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
 
 public class HealthClubSystem {
     /**
@@ -17,8 +22,8 @@ public class HealthClubSystem {
     /**
      * main - entry point into SysEng Health Club
      * */
-    public static void main(String[] args) throws IOException {
-        members = FileOps.getMembers();
+    public static void main(String[] args) {
+        setMembers();
 
         while (true) {
             System.out.println("SysEng Health Club Options: \n0 - Exit system \n1 - Access member information " +
@@ -330,5 +335,19 @@ public class HealthClubSystem {
      * */
     public static void removeMember(String membershipID) {
         members.remove(membershipID);
+    }
+
+    /**
+     * method to set initial state of members
+     * */
+    public static void setMembers() {
+        members = FileOps.getMembers();
+    }
+
+    /**
+     * getter - used for testing
+     * */
+    public static HashMap<String, Member> getMembers() {
+        return members;
     }
 }

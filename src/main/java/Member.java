@@ -1,4 +1,3 @@
-import java.lang.System;
 public class Member {
     String id;
     String fName;
