@@ -6,7 +6,7 @@ SoftEngHC is a Java-based software system designed to manage the SoftEng Health 
 `Functionality` currently supports account creation, account deletion, member look-up, and membership validation.
 
 ### Installation
-`url to repo:`
+`url to repo:` https://github.com/rhasler1/SoftEng-Health-Club-T5.git
 
 `Clone repository` Open IntelliJ -> File -> New -> Project from Version Control ->
 paste url.
