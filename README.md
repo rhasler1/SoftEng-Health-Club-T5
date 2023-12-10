@@ -11,8 +11,9 @@ SoftEngHC is a Java-based software system designed to manage the SoftEng Health 
 `Clone repository` Open IntelliJ -> File -> New -> Project from Version Control ->
 paste url.
 
-`Build` Built using Maven and Amazon Corretto 17, although most versions of Java
-will work just fine.
+`Build` Built using Maven and Amazon Corretto 17.
+
+`Requirements` SDK: Java 17+,  Plug-ins: Maven and Maven Extension  
 
 ### Usage
 
