@@ -1,4 +1,4 @@
-# SoftEng-Health-T5
+# SoftEng-Health-Club-T5
 
 ### Description
 SoftEngHC is a Java-based software system designed to manage the SoftEng Health Club.
