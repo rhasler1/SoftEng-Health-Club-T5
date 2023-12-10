@@ -4,11 +4,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;    
 
 public class FileOps {
 
     // file names
     private static final String MEMBERS = "member.txt";
+    private static final String TRAFFIC = "clubTraffic.txt";
 
     /**
      *
@@ -53,6 +56,24 @@ public class FileOps {
         FileWriter fileWriter = new FileWriter(filename, true);
         fileWriter.append(o.toString());
         fileWriter.close();
+    }
+
+
+
+    public static void logNewVisit() throws IOException{
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy,MM,dd,HH");
+        LocalDateTime now = LocalDateTime.now();
+        writeToFile(TRAFFIC, dtf.format(now));
+
+    }
+
+
+    public static String getDTH(int input){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy,MM,dd,HH");
+        LocalDateTime now = LocalDateTime.now();
+        String[] data = dtf.format(now).split(",");
+        return(data[input]);
+
     }
 
     // TODO: 12/7/23 add method to build HashMap for reports

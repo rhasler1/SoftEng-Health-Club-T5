@@ -126,6 +126,11 @@ public class HealthClubSystem {
         System.out.println("Enter member id: ");
         String id = keyboard.next();
         if (validateMembershipID(id)) {
+            try {
+                FileOps.logNewVisit();
+            } catch (IOException e) {
+                System.out.println("Unable to log member visit");
+            }
             System.out.println("Valid membership allow access.");
         }
         else {
