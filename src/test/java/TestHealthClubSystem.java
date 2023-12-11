@@ -42,7 +42,7 @@ public class TestHealthClubSystem {
 
     @Test
     @DisplayName("Test create member")
-    public void createAccount() {
+    public void testCreateAccount() {
         HealthClubSystem.setMembers(); // set state of hashmap
         HashMap<String, Member> members = HealthClubSystem.getMembers(); // get state
         String id = HealthClubSystem.generateMembershipID();
@@ -51,5 +51,24 @@ public class TestHealthClubSystem {
                 "mwhite@gmail.com", "Student", "2023-02-05" ,"12", "Good");
         assertEquals(members.size(), initialSize+1);
         assertTrue(members.containsKey(id));
+    }
+
+    @Test
+    @DisplayName("Test validate member id")
+    public void testValidateMemberID() {
+        Member member;
+        HealthClubSystem.setMembers();
+        HashMap<String, Member> members = HealthClubSystem.getMembers();
+        assertNotNull(members);
+        assertFalse(members.isEmpty());
+        for (Map.Entry<String, Member> entry: members.entrySet()) {
+            member = entry.getValue();
+            if (member.membershipStatus.equals("Expired")) {
+                assertFalse(HealthClubSystem.validateMembershipID(member.id));
+            }
+            else {
+                assertTrue(HealthClubSystem.validateMembershipID(member.id));
+            }
+        }
     }
 }
