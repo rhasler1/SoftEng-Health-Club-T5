@@ -203,7 +203,7 @@ public class HealthClubSystem {
         String membershipType = selectMembershipType();
         while (membershipType.isEmpty()) { membershipType = selectMembershipType(); }
         createMember(id, fName, lName, phoneNumber, email, membershipType, startDate, membershipLength, membershipStatus);
-        System.out.println("Member " + fName + " " + lName + " successfully added to the system.");
+        System.out.println("Member: " + id + " "+ fName + " " + lName + " successfully added to the system.");
     }
 
     /**
