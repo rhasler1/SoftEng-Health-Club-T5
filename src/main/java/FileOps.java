@@ -64,10 +64,11 @@ public class FileOps {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy,MM,dd,HH");
         LocalDateTime now = LocalDateTime.now();
         writeToFile(TRAFFIC, dtf.format(now));
+        writeToFile(TRAFFIC, "\n");
 
     }
 
-
+//Allows for the construction of relavant date information. 0 for year, 1 for month, 2 for day, 3 for hour
     public static String getDTH(int input){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy,MM,dd,HH");
         LocalDateTime now = LocalDateTime.now();
