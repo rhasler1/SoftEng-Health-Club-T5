@@ -8,6 +8,8 @@ public class Member {
     String startDate;
     String membershipLength;
     String membershipStatus;
+    Integer monthlyVisits;
+    String currMonth;
 
 
     /**
@@ -24,6 +26,8 @@ public class Member {
         this.startDate = startDate;
         this.membershipLength = membershipLength;
         this.membershipStatus = membershipStatus;
+        this.monthlyVisits = 0;
+        this.currMonth = FileOps.getDTH(1);
     }
 
     /**

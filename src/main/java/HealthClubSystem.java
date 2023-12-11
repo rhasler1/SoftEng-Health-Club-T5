@@ -28,7 +28,7 @@ public class HealthClubSystem {
         while (true) {
             System.out.println("SysEng Health Club Options: \n0 - Exit system \n1 - Access member information " +
                     "\n2 - Create member account \n3 - Print member list \n4 - Enter health club \n5 - Delete member account " +
-                    "\n6 - Update status");
+                    "\n6 - Update status" + "\n7 Generate club reports");
             System.out.println("Enter your choice: ");
             int choice = -1;
             try {
@@ -37,7 +37,7 @@ public class HealthClubSystem {
                 System.out.println("The entered number is outside the range of Integers.");
                 keyboard.nextLine();
             }
-            if (choice < 0 || choice > 6) {
+            if (choice < 0 || choice > 7) {
                 System.out.println("That is not an available option, try again.");
             }
 
@@ -67,6 +67,9 @@ public class HealthClubSystem {
 
             if (choice == 6) { // not in our use cases...
                 updateAllStatus();
+            }
+            if (choice == 7){
+                MembershipReports.generateClubReport();
             }
         }
     }
@@ -133,6 +136,13 @@ public class HealthClubSystem {
         System.out.println("Enter member id: ");
         String id = keyboard.next();
         if (validateMembershipID(id)) {
+            try {
+                FileOps.logNewVisit();
+            } catch (IOException e) {
+                System.out.println("Unable to log member visit");
+            }
+            logIDUse(id);
+
             System.out.println("Valid membership allow access.");
         }
         else {
@@ -357,6 +367,24 @@ public class HealthClubSystem {
      * */
     public static void setMembers() {
         members = FileOps.getMembers();
+    }
+
+    /**
+     * method to update member data for tracking monthly visits
+     * 
+     */
+    public static void logIDUse(String membershipID) {
+        if(members.containsKey(membershipID) && !members.get(membershipID).currMonth.equals(FileOps.getDTH(1)) ){
+            Member temp = members.get(membershipID);
+            String currMonthVal = FileOps.getDTH(1);
+            temp.currMonth = currMonthVal;
+            temp.monthlyVisits = 0;
+            members.put(membershipID, temp);
+        } else if(members.containsKey(membershipID)){
+            Member temp = members.get(membershipID);
+            temp.monthlyVisits += 1;
+            members.put(membershipID, temp);
+        }
     }
 
     /**
