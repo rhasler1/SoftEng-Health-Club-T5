@@ -76,6 +76,8 @@ public class HealthClubSystem {
 
     /**
      * method to update all members' status
+     * description: method iterates through the members data structure and updates each member's membership status by comparing
+     * the members start date and current date with the length of their membership.
      * */
     public static void updateAllStatus() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -101,6 +103,9 @@ public class HealthClubSystem {
 
     /**
      * method to remove member
+     * description: asks user for member id to be deleted from system. Before deleting asks if user is sure they
+     * want to delete the account associated with the member id entered. If user confirms they want to remove account
+     * associated with member id, account is deleted and user is notified.
      * */
     public static void deleteMemberAccount() {
         System.out.println("Enter member id of member to remove: ");
@@ -124,6 +129,8 @@ public class HealthClubSystem {
 
     /**
      * method for member access
+     * description: calls on helper method validateMemberID to determine if the id entered is valid. If valid
+     * system outputs "valid membership..." if not system outputs "invalid membership..."
      * */
     public static void enterHealthClub() {
         System.out.println("Enter member id: ");
@@ -145,6 +152,8 @@ public class HealthClubSystem {
 
     /**
      * method to exit system gracefully
+     * description: ensures that the member.txt file is updated before exiting the system. If the system crashes
+     * and does not exit "gracefully" member data will be lost.
      * */
     public static void exitSystem() {
         updateMemberFile(); // update member.txt file
@@ -155,6 +164,8 @@ public class HealthClubSystem {
 
     /**
      * method to search for member
+     * description: given a member id, checks if that id is contained within the members data structure.
+     * If it is contained prints the member's info, if not prints that it is not.
      * */
     public static void accessMemberInformation() {
         System.out.print("Enter the member's ID number: ");
@@ -171,6 +182,7 @@ public class HealthClubSystem {
 
     /**
      * method to print list of members
+     * description: prints the current members information in the system.
      * */
     public static void printMemberList() {
         System.out.println("#### Member Information ####");
@@ -201,11 +213,12 @@ public class HealthClubSystem {
         String membershipType = selectMembershipType();
         while (membershipType.isEmpty()) { membershipType = selectMembershipType(); }
         createMember(id, fName, lName, phoneNumber, email, membershipType, startDate, membershipLength, membershipStatus);
-        System.out.println("Member " + fName + " " + lName + " successfully added to the system.");
+        System.out.println("Member: " + id + " "+ fName + " " + lName + " successfully added to the system.");
     }
 
     /**
      * method to select membership type
+     * description: system asks for age of member, membership type is designated based on the age entered.
      * */
     public static String selectMembershipType() {
         System.out.println("Enter age of new member: ");
@@ -335,6 +348,8 @@ public class HealthClubSystem {
 
     /**
      * validate membershipID for entrance to health club
+     * description: ensures that membership id is contained within the members data structure and that the
+     * membership status is not expired.
      * */
     public static boolean validateMembershipID(String membershipID) {
         return members.containsKey(membershipID) && !members.get(membershipID).membershipStatus.equals("Expired");
